@@ -50,7 +50,7 @@ ChatBot::ChatBot(const ChatBot &chatbot) // RoF 2: copy constructor
     *_image = *chatbot._image;
     *_currentNode = *chatbot._currentNode;
     *_rootNode = *chatbot._rootNode;
-    *_chatLogic = *chatbot._chatLogic;
+    _chatLogic = chatbot._chatLogic;
     
 }
 
@@ -62,7 +62,7 @@ ChatBot& ChatBot::operator=(const ChatBot &chatbot) //RoF 3: copy assignment ope
     *_image = *chatbot._image;
     *_currentNode = *chatbot._currentNode;
     *_rootNode = *chatbot._rootNode;
-    *_chatLogic = *chatbot._chatLogic;
+    _chatLogic = chatbot._chatLogic;
     return *this;   
 }
 
