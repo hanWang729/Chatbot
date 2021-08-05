@@ -48,8 +48,8 @@ ChatBot::ChatBot(const ChatBot &chatbot) // RoF 2: copy constructor
 {
     std::cout << "ChatBot copy constructor" << std::endl;
     *_image = *chatbot._image;
-    *_currentNode = *chatbot._currentNode;
-    *_rootNode = *chatbot._rootNode;
+    _currentNode = chatbot._currentNode;
+    _rootNode = chatbot._rootNode;
     _chatLogic = chatbot._chatLogic;
     
 }
@@ -60,8 +60,8 @@ ChatBot& ChatBot::operator=(const ChatBot &chatbot) //RoF 3: copy assignment ope
     if (this == &chatbot)
         return *this;
     *_image = *chatbot._image;
-    *_currentNode = *chatbot._currentNode;
-    *_rootNode = *chatbot._rootNode;
+    _currentNode = chatbot._currentNode;
+    _rootNode = chatbot._rootNode;
     _chatLogic = chatbot._chatLogic;
     return *this;   
 }
