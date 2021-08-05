@@ -30,7 +30,7 @@ ChatBot::ChatBot(std::string filename)
     _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
 }
 
-ChatBot::~ChatBot()
+ChatBot::~ChatBot() //RoF 1: Copy constructor
 {
     std::cout << "ChatBot Destructor" << std::endl;
 
@@ -44,6 +44,64 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+ChatBot::ChatBot(const ChatBot &chatbot) // RoF 2: copy constructor
+{
+    std::cout << "ChatBot copy constructor" << std::endl;
+    *_image = *chatbot._image;
+    *_currentNode = *chatbot._currentNode;
+    *_rootNode = *chatbot._rootNode;
+    *_chatLogic = *chatbot._chatLogic;
+    
+}
+
+ChatBot& ChatBot::operator=(const ChatBot &chatbot) //RoF 3: copy assignment operator
+{
+    std::cout << "ChatBot copy assignment operator" << std::endl;
+    if (this == &chatbot)
+        return *this;
+    *_image = *chatbot._image;
+    *_currentNode = *chatbot._currentNode;
+    *_rootNode = *chatbot._rootNode;
+    *_chatLogic = *chatbot._chatLogic;
+    return *this;   
+}
+
+ChatBot::ChatBot(ChatBot &&chatbot) //RoF 4: move constructor
+{
+    std::cout << "ChatBot move constructor" << std::endl;
+    _image = chatbot._image;
+    _currentNode = chatbot._currentNode;
+    _rootNode = chatbot._rootNode;
+    _chatLogic = chatbot._chatLogic;
+    chatbot._currentNode = nullptr;
+    chatbot._rootNode = nullptr;
+    chatbot._chatLogic = nullptr;
+    if(chatbot._image != NULL) // Attention: wxWidgets used NULL and not nullptr
+    {
+        delete chatbot._image;
+        _image = NULL;
+    }
+}
+
+ChatBot& ChatBot::operator=(ChatBot &&chatbot)//RoF 5: move assignment operator
+{
+    std::cout << "ChatBot move assignment operator" << std::endl;
+    if (this == &chatbot)
+        return *this;
+    _image = chatbot._image;
+    _currentNode = chatbot._currentNode;
+    _rootNode = chatbot._rootNode;
+    _chatLogic = chatbot._chatLogic;
+    chatbot._currentNode = nullptr;
+    chatbot._rootNode = nullptr;
+    chatbot._chatLogic = nullptr;
+    if(chatbot._image != NULL) // Attention: wxWidgets used NULL and not nullptr
+    {
+        delete chatbot._image;
+        _image = NULL;
+    }
+    return *this;
+}
 
 ////
 //// EOF STUDENT CODE
