@@ -47,10 +47,12 @@ ChatBot::~ChatBot() //RoF 1: Copy constructor
 ChatBot::ChatBot(const ChatBot &chatbot) // RoF 2: copy constructor
 {
     std::cout << "ChatBot copy constructor" << std::endl;
-    *_image = *chatbot._image;
+    
+    _image = new wxBitmap(*chatbot._image);//suggest by https://knowledge.udacity.com/questions/139539
     _currentNode = chatbot._currentNode;
     _rootNode = chatbot._rootNode;
     _chatLogic = chatbot._chatLogic;
+    _chatLogic -> SetChatbotHandle(this);
     
 }
 
@@ -63,6 +65,7 @@ ChatBot& ChatBot::operator=(const ChatBot &chatbot) //RoF 3: copy assignment ope
     _currentNode = chatbot._currentNode;
     _rootNode = chatbot._rootNode;
     _chatLogic = chatbot._chatLogic;
+    _chatLogic -> SetChatbotHandle(this);
     return *this;   
 }
 
@@ -73,13 +76,16 @@ ChatBot::ChatBot(ChatBot &&chatbot) //RoF 4: move constructor
     _currentNode = chatbot._currentNode;
     _rootNode = chatbot._rootNode;
     _chatLogic = chatbot._chatLogic;
+    _chatLogic -> SetChatbotHandle(this);    //suggested by: https://knowledge.udacity.com/questions/657320
+
+
     chatbot._currentNode = nullptr;
     chatbot._rootNode = nullptr;
     chatbot._chatLogic = nullptr;
     if(chatbot._image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
-        delete chatbot._image;
-        _image = NULL;
+        // delete chatbot._image;
+        chatbot._image = NULL;
     }
 }
 
@@ -88,17 +94,19 @@ ChatBot& ChatBot::operator=(ChatBot &&chatbot)//RoF 5: move assignment operator
     std::cout << "ChatBot move assignment operator" << std::endl;
     if (this == &chatbot)
         return *this;
+    delete _image;
     _image = chatbot._image;
     _currentNode = chatbot._currentNode;
     _rootNode = chatbot._rootNode;
     _chatLogic = chatbot._chatLogic;
+    _chatLogic -> SetChatbotHandle(this);     //suggested by: https://knowledge.udacity.com/questions/657320
     chatbot._currentNode = nullptr;
     chatbot._rootNode = nullptr;
     chatbot._chatLogic = nullptr;
     if(chatbot._image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
-        delete chatbot._image;
-        _image = NULL;
+        // delete chatbot._image;
+        chatbot._image = NULL;
     }
     return *this;
 }
